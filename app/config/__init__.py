@@ -20,6 +20,10 @@ class Settings(BaseSettings):
 
     ALLOWED_ORIGINS: str = Field(...)
 
+    SECRET_KEY: str = Field(...)
+    ALGORITHM: str = Field(...)
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(...)
+
     @computed_field
     @property
     def POSTGRES_URL(self) -> str:
