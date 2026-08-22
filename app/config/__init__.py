@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     ALGORITHM: str = Field(...)
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(...)
 
+    ADMIN_USERNAME: str | None = None
+    ADMIN_PASSWORD: str | None = None
+
     @computed_field
     @property
     def POSTGRES_URL(self) -> str:

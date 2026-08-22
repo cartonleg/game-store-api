@@ -8,6 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.api.router import api_router
+from app.bootstrap.admin import ensure_admin_user
 from app.config import settings
 from app.database.database import engine
 
@@ -16,6 +17,7 @@ from app.database.database import engine
 async def lifespan(app: FastAPI):
     async with engine.connect() as conn:
         await conn.execute(text("SELECT 1"))
+    await ensure_admin_user()
     yield
     await engine.dispose()
 
