@@ -40,4 +40,6 @@ class AuthService:
             logging.error(f"Invalid credentials for user {username}")
             raise InvalidCredentialsError(f"Invalid credentials")
         
-        return TokenResponse(access_token=create_access_token(subject=str(user.id)))
+        return TokenResponse(
+            access_token=create_access_token(username=user.username, role=user.role)
+        )

@@ -16,16 +16,11 @@ async def get_current_user(
     user_repo: UserRepoDep,
 ) -> User:
     token = credentials.credentials
-    user_id = decode_access_token(token)
-    if user_id is None:
+    username = decode_access_token(token)
+    if username is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    try:
-        uid = int(user_id)
-    except ValueError:
-        raise HTTPException(status_code=401, detail="Invalid token")
-    
-    user = await user_repo.get(uid)
+    user = await user_repo.get_by_username(username)
 
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
