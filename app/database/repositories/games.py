@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 
 from sqlalchemy import func
-from sqlmodel import select
+from sqlmodel import delete, select
 
 from app.database.models import Game, Locations, Order
 from app.database.repositories.base import BaseRepository
@@ -34,6 +34,9 @@ class GameRepository(BaseRepository[Game]):
     def add_multiple(self, entities: Sequence[Game]) -> Sequence[Game]:
         self.session.add_all(entities)
         return entities
+
+    async def delete_all(self) -> None:
+        await self.session.exec(delete(Game))
 
     async def list_purchased_games_for_user(self, user_id: int) -> Sequence[Game]:
         statement = (
